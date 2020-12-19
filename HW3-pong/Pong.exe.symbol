@@ -1,0 +1,23 @@
+< THE SYMBOL TABLE >  Pong.exe  --  emu8086 assembler version: 4.08 
+===================================================================================================
+Name                     	Offset    	Size      	Type      	Segment   
+===================================================================================================
+STACK                    	00000     	-5        	SEGMENT   	(ITSELF)  
+DATA                     	00004     	-5        	SEGMENT   	(ITSELF)  
+TIME_AUX                 	00000     	1         	VAR       	DATA      
+BALL_X                   	00001     	2         	VAR       	DATA      
+BALL_Y                   	00003     	2         	VAR       	DATA      
+BALL_SIZE                	00005     	2         	VAR       	DATA      
+BALL_VEL_X               	00007     	2         	VAR       	DATA      
+BALL_VEL_Y               	00009     	2         	VAR       	DATA      
+CODE                     	00005     	-5        	SEGMENT   	(ITSELF)  
+MAIN                     	00000     	-1        	FAR       	CODE      
+CHECKTIME                	00008     	-1        	LABEL     	CODE      
+DRAW_BALL                	00022     	-1        	NEAR      	CODE      
+DRAW                     	0002A     	-1        	LABEL     	CODE      
+CLEAR_SCREEN             	00051     	-1        	NEAR      	CODE      
+MOVE_BALL                	00060     	-1        	NEAR      	CODE      
+===================================================================================================
+[ 4/20/2020  --  6:20:20 PM ] 
+< END >
+ 

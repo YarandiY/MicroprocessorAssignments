@@ -1,0 +1,159 @@
+EMU8086 GENERATED LISTING. MACHINE CODE <- SOURCE.
+ 
+Pong.exe -- emu8086 assembler version: 4.08  
+ 
+[ 4/20/2020  --  6:20:20 PM ] 
+ 
+===================================================================================================
+[LINE]     LOC: MACHINE CODE                          SOURCE
+===================================================================================================
+ 
+[   1]        :                                       STACK SEGMENT PARA STACK
+[   2]    0000: 20 20 20 20 20 20 20 20 20 20 20 20   DB 64 DUP (' ')
+                20 20 20 20 20 20 20 20 20 20 20 20 
+                20 20 20 20 20 20 20 20 20 20 20 20 
+                20 20 20 20 20 20 20 20 20 20 20 20 
+                20 20 20 20 20 20 20 20 20 20 20 20 
+                20 20 20 20                         
+[   3]        :                                       STACK ENDS
+[   4]        :                                       
+[   5]        :                                       
+[   6]        :                                       DATA SEGMENT PARA 'DATA'
+[   7]    0040: 00                                    TIME_AUX DB 0
+[   8]    0041: 0A 00                                 BALL_X DW 0AH
+[   9]    0043: 0A 00                                 BALL_Y DW 0AH
+[  10]    0045: 04 00                                 BALL_SIZE DW 04H
+[  11]    0047: 02 00                                 BALL_VEL_X DW 02H
+[  12]    0049: 02 00                                 BALL_VEL_Y DW 02H
+[  13]        :                                       DATA ENDS
+[  14]        :                                       
+[  15]        :                                       
+[  16]        :                                       CODE SEGMENT PARA 'CODE'
+[  17]        :                                       
+[  18]    0050:                                       MAIN PROC FAR
+[  19]        :                                       ;ASSUME cs:CODE,ds:DATA,ss:STACK
+[  20]    0050: B8 04 00                              MOV AX,@DATA
+[  21]    0053: 8E D8                                 MOV DS, AX
+[  22]        :                                       
+[  23]    0055: E8 49 00                              CALL CLEAR_SCREEN
+[  24]        :                                       
+[  25]    0058:                                       checkTime:
+[  26]    0058: B4 2C                                 MOV AH, 2CH
+[  27]    005A: CD 21                                 INT 21H
+[  28]        :                                       
+[  29]    005C: 3A 16 00 00                           CMP DL, TIME_AUX
+[  30]    0060: 74 F6                                 JE checkTime
+[  31]        :                                       
+[  32]    0062: 88 16 00 00                           MOV TIME_AUX, DL
+[  33]        :                                       
+[  34]    0066: E8 38 00                              CALL CLEAR_SCREEN
+[  35]        :                                       
+[  36]    0069: E8 44 00                              CALL MOVE_BALL
+[  37]        :                                       
+[  38]    006C: E8 03 00                              CALL DRAW_BALL
+[  39]        :                                       
+[  40]    006F: EB E7                                 JMP checkTime
+[  41]        :                                       
+[  42]        :                                       
+[  43]    0071: CB                                    RET
+[  44]        :                                       MAIN ENDP
+[  45]        :                                       
+[  46]    0072:                                       DRAW_BALL PROC NEAR
+[  47]    0072: 8B 0E 01 00                           MOV CX, BALL_X
+[  48]    0076: 8B 16 03 00                           MOV DX, BALL_Y
+[  49]        :                                       
+[  50]    007A:                                       draw:
+[  51]    007A: B4 0C                                 MOV AH, 0CH
+[  52]    007C: B0 0F                                 MOV AL, 0FH
+[  53]    007E: B7 00                                 MOV BH, 00H
+[  54]    0080: CD 10                                 INT 10H
+[  55]        :                                       
+[  56]    0082: 41                                    INC CX
+[  57]    0083: 8B C1                                 MOV AX, CX
+[  58]    0085: 2B 06 01 00                           SUB AX, BALL_X
+[  59]    0089: 3B 06 05 00                           CMP AX, BALL_SIZE
+[  60]    008D: 7E EB                                 JNG draw
+[  61]        :                                       
+[  62]    008F: 8B 0E 01 00                           MOV CX, BALL_X
+[  63]    0093: 42                                    INC DX
+[  64]        :                                       
+[  65]    0094: 8B C2                                 MOV AX, DX
+[  66]    0096: 2B 06 03 00                           SUB AX, BALL_Y
+[  67]    009A: 3B 06 05 00                           CMP AX, BALL_SIZE
+[  68]    009E: 7E DA                                 JNG draw
+[  69]        :                                       
+[  70]    00A0: C3                                    RET
+[  71]        :                                       DRAW_BALL ENDP
+[  72]        :                                       
+[  73]    00A1:                                       CLEAR_SCREEN PROC NEAR
+[  74]        :                                       
+[  75]    00A1: B4 00                                 MOV AH, 00H
+[  76]    00A3: B0 13                                 MOV AL, 13H
+[  77]    00A5: CD 10                                 INT 10H
+[  78]        :                                       
+[  79]    00A7: B4 00                                 MOV AH, 00h
+[  80]    00A9: B7 00                                 MOV BH, 00H
+[  81]    00AB: B3 00                                 MOV BL, 00H
+[  82]    00AD: CD 10                                 INT 10H
+[  83]        :                                       
+[  84]    00AF: C3                                    RET
+[  85]        :                                       CLEAR_SCREEN ENDP
+[  86]        :                                       
+[  87]    00B0:                                       MOVE_BALL PROC NEAR
+[  88]        :                                       
+[  89]    00B0: A1 07 00                              MOV AX, BALL_VEL_X
+[  90]    00B3: 01 06 01 00                           ADD BALL_X, AX
+[  91]    00B7: A1 09 00                              MOV AX, BALL_VEL_Y
+[  92]    00BA: 01 06 03 00                           ADD BALL_Y, AX
+[  93]        :                                       
+[  94]    00BE: C3                                    RET
+[  95]        :                                       MOVE_BALL ENDP
+[  96]        :                                       
+[  97]        :                                       CODE ENDS
+[  98]        :                                       END
+[  99]        :                                       
+ 
+===================================================================================================
+ 
+EXE HEADER - bytes from 0000 to 01FF inclusive.
+
+0000: 4D      -   exe signature (M)
+0001: 5A      -   exe signature (Z)
+0002: BF      -   bytes on last page (l.byte)
+0003: 00      -   bytes on last page (h.byte)
+0004: 02      -   512 byte pages in file (l.byte)
+0005: 00      -   512 byte pages in file (h.byte)
+0006: 01      -   relocations (l.byte)
+0007: 00      -   relocations (h.byte)
+0008: 20      -   paragraphs in header (l.byte)
+0009: 00      -   paragraphs in header (h.byte)
+000A: 00      -   minimum memory (l.byte)
+000B: 00      -   minimum memory (h.byte)
+000C: FF      -   maximum memory (l.byte)
+000D: FF      -   maximum memory (h.byte)
+000E: 00      -   SS - stack segment (l.byte)
+000F: 00      -   SS - stack segment (h.byte)
+0010: 40      -   SP - stack pointer (l.byte)
+0011: 00      -   SP - stack pointer (h.byte)
+0012: EF      -   check sum (l.byte)
+0013: E7      -   check sum (h.byte)
+0014: 00      -   IP - instruction pointer (l.byte)
+0015: 00      -   IP - instruction pointer (h.byte)
+0016: 05      -   CS - code segment (l.byte)
+0017: 00      -   CS - code segment (h.byte)
+0018: 1E      -   relocation table adress (l.byte)
+0019: 00      -   relocation table adress (h.byte)
+001A: 00      -   overlay number (l.byte)
+001B: 00      -   overlay number (h.byte)
+001C: 01      -   signature (l.byte)
+001D: 00      -   signature (h.byte)
+001E: 01      -   relocation table - offset inside segment (l.byte)
+001F: 00      -   relocation table - offset inside segment (h.byte)
+0020: 05      -   relocation table - segment anchor (l.byte)
+0021: 00      -   relocation table - segment anchor (h.byte)
+0022 to 01FF  -   reserved relocation area  (00) 
+
+
+
+
+===================================================================================================
