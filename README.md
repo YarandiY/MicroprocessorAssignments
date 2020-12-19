@@ -1,4 +1,4 @@
-# MicroprocessorAssignments
+# Microprocessor Assignments
 These are the second and the third assignment of Microprocessor course at Shahid Beheshti University.  They were written in 8086 assembly.
 
 ## HW2
